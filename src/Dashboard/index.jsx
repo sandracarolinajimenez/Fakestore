@@ -1,0 +1,26 @@
+// todo la carga logica
+import DashboardView from './DashboardView'
+import useSWR from '../hooks/useSWR'
+// const API_URL = import.meta.env.VITE_API_URL
+const API_URL = 'https://fakestoreapi.com'
+console.log('Aqui', API_URL)
+function DashboardHOC () {
+  const { data: productData, loading, error } = useSWR({ url: `${API_URL}/products` })
+
+  return (
+    <>
+      {
+          loading
+            ? <span>Cargando....</span>
+            : <DashboardView data={productData} />
+      }
+      {
+          !loading && error && (
+              <h1>Error fatal, consulta más tarde</h1>
+          )
+      }
+    </>
+  )
+}
+
+export default DashboardHOC
